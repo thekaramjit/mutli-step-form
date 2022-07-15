@@ -1,0 +1,43 @@
+select {
+    width: 100%;
+    height: 50px;
+    border-radius: 9px;
+}
+
+.container {
+    background-color: whitesmoke;
+}
+
+.header {
+    font-size: 50px;
+}
+
+.heading {
+    width: 50%;
+    color: #673AB7;
+    font-weight: normal;
+    margin: 23px 0px;
+}
+
+h3 {
+    color: #673AB7;
+    font-weight: 400;
+}
+
+.stepNo {
+    width: 50%;
+    text-align: end;
+    color: rgb(128, 128, 128);
+}
+
+.submitBtn {
+    background-color: #673AB7 !important;
+    border: none !important;
+}
+
+.MuiLinearProgress-bar {
+    background-color: #673AB7 !important;
+    width: 104.5% !important;
+    position: absolute !important;
+    left: -28px !important;
+}
