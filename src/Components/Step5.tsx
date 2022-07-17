@@ -15,9 +15,6 @@ export const Step5: React.FC<Props> = ({ nextStep, previousStep, formData }) => 
   return (
     <div>
       <div className="container mt-5">
-
-        <ProgressBar progressWidth={100} />
-
         <Header heading="DETAILS" step={5} />
         
         <div className="row">

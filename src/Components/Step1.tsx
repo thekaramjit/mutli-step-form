@@ -8,11 +8,13 @@ import "./style.css"
 
 type TFormData={
   formData:IBasicInfo
+  getInfo: IBasicInfo
+  setInfo: React.Dispatch<React.SetStateAction<IBasicInfo | undefined>>
 }
 
 type Props = TFormData & btnProps;
 
-export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData}) => {
+export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData,setInfo}) => {
 
   const { register, handleSubmit, control, formState: { errors },setValue } = useForm<IBasicInfo>({
     defaultValues: {
@@ -27,6 +29,7 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
         
       }
     })
+    setInfo(data)
     nextStep()
   };
 

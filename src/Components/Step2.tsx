@@ -52,7 +52,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   
   return (
     <div className="container mt-5">
-      <ProgressBar progressWidth={25} />
+      {/* <ProgressBar progressWidth={25} /> */}
 
       <Header heading="EMPLOYEE INFO" step={2}/>
       

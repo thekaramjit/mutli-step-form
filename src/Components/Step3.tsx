@@ -58,7 +58,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
 
     return (
         <div className="container mt-5">
-            <ProgressBar progressWidth={50} />
+            {/* <ProgressBar progressWidth={50} /> */}
 
             <Header heading="ADDRESS" step={3}/>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
