@@ -1,5 +1,5 @@
 import { btnProps, IHobbies, IRootState} from '../models/models'
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel } from "@mui/material";
 import { ProgressBar } from './ProgressBar';
@@ -14,12 +14,19 @@ type TFormData = {
 type Props = TFormData & btnProps
 
 export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData,getInfo,setInfo }) => {
+
+  const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length==0 ? getInfo?.hobbies : formData?.hobbies
+  const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel=="" ? getInfo?.jsLevel : formData?.jsLevel
+
+  const [hobbiesState, setHobbiesState] = useState(hobbiesValue)
+  const [jSLevelState,setJSLevelState]=useState(jsLevelValue)
+
   const { register, handleSubmit, control, formState: { errors }, setValue ,getValues} = useForm<IHobbies>({
     defaultValues: {
     }
   });
 
-  console.log(formData);
+
   
 
   const onSubmit = (data: IHobbies) => {
@@ -39,15 +46,8 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   }
 
   if (getInfo?.hobbies ) {
-    const { hobbies, jsLevel } = getInfo
-    setValue('hobbies', hobbies)
-    setValue('jsLevel', jsLevel)
-  }
-   else if (formData?.jsLevel) {
-    const { hobbies, jsLevel } = formData
-    setValue('hobbies', hobbies)
-    setValue('jsLevel', jsLevel)
-  }
+    setValue('hobbies', hobbiesValue)
+   }
 
   return (
     <div className="container mt-5">
@@ -81,7 +81,7 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
 
         {/* js Level */}
         <FormLabel>JavaScript level</FormLabel><br />
-        <select {...register("jsLevel", { required: true })}>
+        <select {...register("jsLevel", { required: true })} value={jSLevelState}  onChange={(e) => setJSLevelState(e.target.value)}>
           <option value="Beginner" key={1}>Beginner</option>
           <option value="Intermediate" key={2}>Intermediate</option>
           <option value="Advance" key={3}>Advance</option>

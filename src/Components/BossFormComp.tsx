@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { IAddress, ICompanyInfo, IHobbies, IRootState } from '../models/models'
+import { ProgressBar } from './ProgressBar'
 import { Step1 } from './Step1'
 import { Step2 } from './Step2'
 import { Step3 } from './Step3'
@@ -20,14 +21,14 @@ export const BossFormComp: React.FC = () => {
         companyInfo: {
             companyName: "",
             profile: "",
-            currentSalary: 0,
-            expectedSalary: 0
+            currentSalary: null,
+            expectedSalary: null
         },
         addressInfo: {
             country: "",
             state: "",
             city: "",
-            zipCode: 0
+            zipCode:null
         },
         hobbiesInfo: {
             hobbies: [],
@@ -77,6 +78,7 @@ export const BossFormComp: React.FC = () => {
         default:
             return (
                 <div className="App">
+                    
                 </div>
             );
     }

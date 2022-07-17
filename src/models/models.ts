@@ -10,16 +10,16 @@ export interface IBasicInfo {
 export interface ICompanyInfo {
         companyName: string,
         profile: string,
-        currentSalary: number,
-        expectedSalary: number
+        currentSalary: number | null,
+        expectedSalary: number | null
 }
 
 export interface IPropCompanyInfo {
         getInfo:{
                 companyName: string,
                 profile: string,
-                currentSalary: number,
-                expectedSalary: number
+                currentSalary: number | null,
+                expectedSalary: number | null
         }
         
 }
@@ -28,7 +28,7 @@ export interface IAddress {
         country: string,
         state: string,
         city: string,
-        zipCode: number
+        zipCode: number | null
 }
 
 export interface IHobbies {

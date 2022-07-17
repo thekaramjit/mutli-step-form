@@ -42,7 +42,7 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
 
   return (
     <div className="container mt-5">
-      <ProgressBar progressWidth={0} />
+      {/* <ProgressBar progressWidth={0} /> */}
       
       <Header heading="BASIC INFO" step={1} />
       

@@ -18,13 +18,16 @@ type Props = TFormData & btnProps
 
 export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFormData, getInfo, setInfo }) => {
     
-    const countryValue = !getInfo?.country ? getInfo?.country : formData?.country
-    const stateValue = !getInfo?.state ? getInfo?.state : formData?.state
-    const cityValue = !getInfo?.city ? getInfo?.city : formData?.city
+    const countryValue = getInfo?.country || getInfo?.country ==="" ? getInfo?.country : formData?.country
+    const stateValue = getInfo?.state || getInfo?.state==="" ? getInfo?.state : formData?.state
+    const cityValue = getInfo?.city || getInfo?.city==="" ? getInfo?.city : formData?.city
+    const zipCode=getInfo?.zipCode ? getInfo?.zipCode : formData?.zipCode
 
     const [selectedCountry, setSelectedCountry] = useState(countryValue)
     const [selectedState, setSelectedState] = useState(stateValue)
     const [selectedCity, setSelectedCity] = useState(cityValue)
+    const [zipCodeState,setZipCodeState]=useState<number | string | null>(zipCode)
+    
 
 
     const { register, handleSubmit, control, formState: { errors }, setValue, getValues ,watch} = useForm<IAddress>({
@@ -45,6 +48,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
 
     const handlePrevious = () => {
         const multipleValues: IAddress = getValues();
+        console.log(multipleValues)
         setInfo(multipleValues)
         previousStep()
     }
@@ -52,27 +56,11 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
     const availableState = countryData.countries.find((c) => c.name === selectedCountry);
     const availableCities = availableState?.states?.find((s) => s.name === selectedState);
 
-    if(getInfo?.country) {
-        const { country,state,city,zipCode } = getInfo        
-        // setValue('country', country)
-        // setValue('state', state)
-        // setValue('city', city)
-        setValue('zipCode', zipCode)
-    }else if (formData?.country) {
-        const { country, state, city, zipCode } = formData
-        // setValue('country', country)
-        // setValue('state', state)
-        // setValue('city', city)
-        setValue('zipCode', zipCode)
-    }
-
     return (
         <div className="container mt-5">
             <ProgressBar progressWidth={50} />
 
             <Header heading="ADDRESS" step={3}/>
-            
-
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
 
                 {/* Country */}
@@ -83,7 +71,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                         return <option value={value.name} key={key}>{value.name}</option>
                     })}
                 </select><br />
-                {errors.country?.type === "required" && <span className="text-danger">This field is required</span>}<br />
+                {errors.country  && <span className="text-danger">This field is required</span>}<br />
 
 
                 {/* State */}
@@ -94,7 +82,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                         return <option value={e.name} key={key}>{e.name}</option>
                     })}
                 </select><br />
-                {errors.state?.type === "required" && <span className="text-danger">This field is required</span>}<br />
+                {errors.state && <span className="text-danger">This field is required</span>}<br />
 
 
                 {/* City */}
@@ -112,8 +100,9 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                 <Controller
                     name="zipCode"
                     control={control}
-                    render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Zip Code" variant="outlined"   {...register("zipCode", { maxLength: 5, minLength: 5, required: true })}
+                    render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Zip Code" variant="outlined"   {...register("zipCode", { maxLength: 5, minLength: 5, required: true })}  value={zipCodeState}  onChange={(e)=>{setZipCodeState(e.target.value)}}
                     />}
+                    
                 />
                 {errors.zipCode && <span className="text-danger">zipCode should be of 5 digits</span>}<br /><br />
 

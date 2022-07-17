@@ -1,5 +1,5 @@
 import { btnProps, ICompanyInfo, IRootState } from '../models/models'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel, TextField } from "@mui/material";
 import { ProgressBar } from './ProgressBar';
@@ -14,6 +14,14 @@ type TFormData = {
 type Props = TFormData & btnProps;
 
 export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, setInfo, getInfo }) => {
+
+  const profileValue = getInfo?.profile || getInfo?.profile=="" ? getInfo?.profile : formData?.profile
+  const currentSalaryValue = getInfo?.currentSalary || getInfo?.currentSalary==0 ? getInfo?.currentSalary : formData?.currentSalary
+  const expectedSalaryValue=getInfo?.expectedSalary || getInfo?.expectedSalary==0 ? getInfo?.expectedSalary : formData?.expectedSalary
+
+  const [profileState, setProfileState] = useState(profileValue)
+  const [currentSalaryState, setCurrentSalaryState] = useState<number | null | string>(currentSalaryValue)
+  const [expectedSalaryState,setExpectedSalaryState]=useState<number | null | string>(expectedSalaryValue)
 
   const { register, handleSubmit, control, formState: { errors }, getValues, setValue } = useForm<ICompanyInfo>({
     defaultValues: {
@@ -34,26 +42,14 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   const handlePrevious = () => {
     const multipleValues: ICompanyInfo = getValues();
     console.log(multipleValues);
-
     setInfo(multipleValues)
     previousStep()
   }
 
-  if (getInfo?.companyName) {
-    const { companyName, profile, currentSalary, expectedSalary } = getInfo
-    setValue('companyName', companyName)
-    setValue('profile', profile)
-    setValue('currentSalary', currentSalary)
-    setValue('expectedSalary', expectedSalary)
-  }
-  else if (formData?.companyName) {
-    const { companyName, profile, currentSalary, expectedSalary } = formData
-    setValue('companyName', companyName)
-    setValue('profile', profile)
-    setValue('currentSalary', currentSalary)
-    setValue('expectedSalary', expectedSalary)
-  }
-
+  useEffect(()=>{
+    setValue('companyName', getInfo?.companyName)
+  },[])
+  
   return (
     <div className="container mt-5">
       <ProgressBar progressWidth={25} />
@@ -67,7 +63,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
           name="companyName"
           defaultValue=" "
           control={control}
-          render={({ field }) => <TextField  className='form-control' id="outlined-basic" label="Company Name" variant="outlined"  {...register("companyName", { minLength: 5, required: true })}
+          render={({ field }) => <TextField   className='form-control' id="outlined-basic" label="Company Name" variant="outlined"  {...register("companyName", { minLength: 5, required: true })} 
           />}
         />
         {errors.companyName && errors.companyName.type === "required" && <span className="text-danger">This feild is required!</span>}<br />
@@ -75,7 +71,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
 
         {/* proflie */}
         <FormLabel>Profile</FormLabel><br />
-        <select {...register("profile", { required: true })}>
+        <select {...register("profile", { required: true })} value={profileState}  onChange={(e) => setProfileState(e.target.value)}>
           <option value="">None</option>
           <option value="React.js">React.js</option>
           <option value="PHP">PHP</option>
@@ -92,7 +88,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
         <Controller
           name="currentSalary"
           control={control}
-          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Current CTC" variant="outlined"  {...register("currentSalary", { required: true })}
+          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Current CTC" variant="outlined"  {...register("currentSalary", { required: true })} value={currentSalaryState}  onChange={(e) => setCurrentSalaryState(e.target.value)}
           />}
         />
         {errors.currentSalary && <span className="text-danger">This feild is required!</span>}<br /><br />
@@ -103,6 +99,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
           name="expectedSalary"
           control={control}
           render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Expected CTC" variant="outlined"  {...register("expectedSalary", { required: true })}
+          value={expectedSalaryState}  onChange={(e) => setExpectedSalaryState(e.target.value)}
           />}
         />
         {errors.expectedSalary && <span className="text-danger">This feild is required!</span>}<br /><br />
