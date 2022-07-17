@@ -26,13 +26,13 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
     setFormData((preVal:IRootState)=>{
       return{
         ...preVal, basicInfo: data
-        
       }
     })
     setInfo(data)
     nextStep()
   };
 
+  //setting data
   if (formData?.name) {
     const { name,fName,mName,gender,age,email } = formData
     setValue('name', name)
@@ -45,8 +45,6 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
 
   return (
     <div className="container mt-5">
-      {/* <ProgressBar progressWidth={0} /> */}
-      
       <Header heading="BASIC INFO" step={1} />
       
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="on">

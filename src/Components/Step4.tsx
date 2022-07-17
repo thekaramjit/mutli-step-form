@@ -2,7 +2,6 @@ import { btnProps, IHobbies, IRootState} from '../models/models'
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel } from "@mui/material";
-import { ProgressBar } from './ProgressBar';
 import { Header } from './Header';
 
 type TFormData = {
@@ -15,20 +14,21 @@ type Props = TFormData & btnProps
 
 export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData,getInfo,setInfo }) => {
 
+  //getting data from boss component
   const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length==0 ? getInfo?.hobbies : formData?.hobbies
   const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel=="" ? getInfo?.jsLevel : formData?.jsLevel
 
+  //setting data
   const [hobbiesState, setHobbiesState] = useState(hobbiesValue)
   const [jSLevelState,setJSLevelState]=useState(jsLevelValue)
 
+  //uesForm
   const { register, handleSubmit, control, formState: { errors }, setValue ,getValues} = useForm<IHobbies>({
     defaultValues: {
     }
   });
 
-
-  
-
+  //submit function
   const onSubmit = (data: IHobbies) => {
     nextStep()
     setFormData((preVal: IRootState) => {
@@ -39,19 +39,20 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
     setInfo(data)
   };
 
+   //handling previous
   const handlePrevious = () => {
     const multipleValues: IHobbies = getValues();
     setInfo(multipleValues)
     previousStep()
   }
 
+  //setting hobbies value
   if (getInfo?.hobbies ) {
     setValue('hobbies', hobbiesValue)
    }
 
   return (
     <div className="container mt-5">
-      {/* <ProgressBar progressWidth={75} /> */}
 
       <Header heading="HOBBIES" step={4} />
       

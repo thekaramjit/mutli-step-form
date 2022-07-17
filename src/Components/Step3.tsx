@@ -18,24 +18,26 @@ type Props = TFormData & btnProps
 
 export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFormData, getInfo, setInfo }) => {
     
+    //getting data from boss component
     const countryValue = getInfo?.country || getInfo?.country ==="" ? getInfo?.country : formData?.country
     const stateValue = getInfo?.state || getInfo?.state==="" ? getInfo?.state : formData?.state
     const cityValue = getInfo?.city || getInfo?.city==="" ? getInfo?.city : formData?.city
     const zipCode=getInfo?.zipCode ? getInfo?.zipCode : formData?.zipCode
 
+    //setting data
     const [selectedCountry, setSelectedCountry] = useState(countryValue)
     const [selectedState, setSelectedState] = useState(stateValue)
     const [selectedCity, setSelectedCity] = useState(cityValue)
     const [zipCodeState,setZipCodeState]=useState<number | string | null>(zipCode)
     
 
-
+    //uesForm
     const { register, handleSubmit, control, formState: { errors }, setValue, getValues ,watch} = useForm<IAddress>({
         defaultValues: {
         }
     });
 
-
+    //submit function
     const onSubmit = (data: IAddress) => {
         nextStep()
         setFormData((preVal: IRootState) => {
@@ -46,19 +48,19 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
         setInfo(data)
     };
 
+    //handling previous
     const handlePrevious = () => {
         const multipleValues: IAddress = getValues();
-        console.log(multipleValues)
         setInfo(multipleValues)
         previousStep()
     }
 
-    const availableState = countryData.countries.find((c) => c.name === selectedCountry);
-    const availableCities = availableState?.states?.find((s) => s.name === selectedState);
+    //sorted Data
+    const sortedStates = countryData.countries.find((c) => c.name === selectedCountry);
+    const sortedCities = sortedStates?.states?.find((s) => s.name === selectedState);
 
     return (
         <div className="container mt-5">
-            {/* <ProgressBar progressWidth={50} /> */}
 
             <Header heading="ADDRESS" step={3}/>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -78,7 +80,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                 <label className="form-label">State</label>
                 <select {...register("state", { required: true })} value={selectedState}  onChange={(e) => setSelectedState(e.target.value)}>
                     <option value="">None</option>
-                    {availableState?.states.map((e, key) => {
+                    {sortedStates?.states.map((e, key) => {
                         return <option value={e.name} key={key}>{e.name}</option>
                     })}
                 </select><br />
@@ -89,7 +91,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                 <FormLabel>City</FormLabel><br />
                 <select  {...register("city", { required: true })} value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                     <option value="">None</option>
-                    {availableCities?.cities.map((e: string, index: number) => {
+                    {sortedCities?.cities.map((e: string, index: number) => {
                         return <option key={index + "c"} value={e}>{e}</option>
                     })
                     }

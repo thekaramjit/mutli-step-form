@@ -15,20 +15,24 @@ type Props = TFormData & btnProps;
 
 export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, setInfo, getInfo }) => {
 
+  //getting data from boss component
   const profileValue = getInfo?.profile || getInfo?.profile=="" ? getInfo?.profile : formData?.profile
   const currentSalaryValue = getInfo?.currentSalary || getInfo?.currentSalary==0 ? getInfo?.currentSalary : formData?.currentSalary
   const expectedSalaryValue=getInfo?.expectedSalary || getInfo?.expectedSalary==0 ? getInfo?.expectedSalary : formData?.expectedSalary
 
+  //setting data
   const [profileState, setProfileState] = useState(profileValue)
   const [currentSalaryState, setCurrentSalaryState] = useState<number | null | string>(currentSalaryValue)
   const [expectedSalaryState,setExpectedSalaryState]=useState<number | null | string>(expectedSalaryValue)
 
+  //use form
   const { register, handleSubmit, control, formState: { errors }, getValues, setValue } = useForm<ICompanyInfo>({
     defaultValues: {
     }
   });
 
 
+  //submit funciton
   const onSubmit = (data: ICompanyInfo) => {
     nextStep()
     setFormData((preVal: IRootState) => {
@@ -39,20 +43,20 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
     setInfo(data)
   };
 
+  //previous buttoon
   const handlePrevious = () => {
     const multipleValues: ICompanyInfo = getValues();
-    console.log(multipleValues);
     setInfo(multipleValues)
     previousStep()
   }
 
+  //setting company value
   useEffect(()=>{
     setValue('companyName', getInfo?.companyName)
   },[])
   
   return (
     <div className="container mt-5">
-      {/* <ProgressBar progressWidth={25} /> */}
 
       <Header heading="EMPLOYEE INFO" step={2}/>
       

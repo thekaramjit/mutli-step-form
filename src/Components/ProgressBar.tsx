@@ -6,7 +6,6 @@ type Props={
     progressWidth:number
 }
 export const ProgressBar: React.FC<Props> = ({progressWidth})=> {
-    // const [progress, setProgress] = React.useState<number>(0);
 
     return (  
         <div className="container">

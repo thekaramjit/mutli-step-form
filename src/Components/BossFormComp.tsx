@@ -53,8 +53,6 @@ export const BossFormComp: React.FC = () => {
     };
 
     useEffect(()=>{
-        console.log("useEffec");
-        
         progressFunc()
     },[formData])
 
@@ -74,11 +72,6 @@ export const BossFormComp: React.FC = () => {
     
         setProgress(basicProgressBar + companyInfoProgressBar + addressInfoProgressBar + hobbiesInfoProgressBar)
     }
-
-    console.log(progress)
-
-    
-    
     switch (step) {
         case 1:
             return (
