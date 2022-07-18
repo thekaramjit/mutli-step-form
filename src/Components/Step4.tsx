@@ -15,11 +15,10 @@ type Props = TFormData & btnProps
 export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData,getInfo,setInfo }) => {
 
   //getting data from boss component
-  const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length==0 ? getInfo?.hobbies : formData?.hobbies
-  const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel=="" ? getInfo?.jsLevel : formData?.jsLevel
+  const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length===0 ? getInfo?.hobbies : formData?.hobbies
+  const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel==="" ? getInfo?.jsLevel : formData?.jsLevel
 
   //setting data
-  const [hobbiesState, setHobbiesState] = useState(hobbiesValue)
   const [jSLevelState,setJSLevelState]=useState(jsLevelValue)
 
   //uesForm

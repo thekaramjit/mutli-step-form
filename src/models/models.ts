@@ -4,22 +4,22 @@ export interface IBasicInfo {
         mName: string,
         email: string
         gender: string,
-        age: number | null
+        age: number | undefined
 }
 
 export interface ICompanyInfo {
         companyName: string,
         profile: string,
-        currentSalary: number | null,
-        expectedSalary: number | null
+        currentSalary: number | undefined,
+        expectedSalary: number | undefined
 }
 
 export interface IPropCompanyInfo {
         getInfo:{
                 companyName: string,
                 profile: string,
-                currentSalary: number | null,
-                expectedSalary: number | null
+                currentSalary: number | undefined,
+                expectedSalary: number | undefined
         }
         
 }
@@ -28,7 +28,7 @@ export interface IAddress {
         country: string,
         state: string,
         city: string,
-        zipCode: number | null
+        zipCode: number | undefined
 }
 
 export interface IHobbies {

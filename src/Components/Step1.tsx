@@ -1,8 +1,7 @@
 import { btnProps, IBasicInfo, IRootState} from '../models/models'
-import React, { useState } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {TextField } from "@mui/material";
-import { ProgressBar } from './ProgressBar';
 import { Header } from './Header';
 import "./style.css"
 
@@ -98,7 +97,6 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
         
         {/* age */}
         <Controller
-         
           name="age"
           control={control}
           render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Age" variant="outlined"  {...register("age", { required: true, min: 18 ,max:100})}

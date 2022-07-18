@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel, TextField } from "@mui/material";
 import { countryData } from '../Data/data';
-import { ProgressBar } from './ProgressBar';
 import "./style.css"
 import { Header } from './Header';
 
@@ -22,17 +21,17 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
     const countryValue = getInfo?.country || getInfo?.country ==="" ? getInfo?.country : formData?.country
     const stateValue = getInfo?.state || getInfo?.state==="" ? getInfo?.state : formData?.state
     const cityValue = getInfo?.city || getInfo?.city==="" ? getInfo?.city : formData?.city
-    const zipCode=getInfo?.zipCode ? getInfo?.zipCode : formData?.zipCode
+    const zipCode=!getInfo?.zipCode  ? getInfo?.zipCode : formData?.zipCode
 
     //setting data
     const [selectedCountry, setSelectedCountry] = useState(countryValue)
     const [selectedState, setSelectedState] = useState(stateValue)
     const [selectedCity, setSelectedCity] = useState(cityValue)
-    const [zipCodeState,setZipCodeState]=useState<number | string | null>(zipCode)
+    const [zipCodeState, setZipCodeState] = useState<number | string | undefined>(zipCode)
     
 
     //uesForm
-    const { register, handleSubmit, control, formState: { errors }, setValue, getValues ,watch} = useForm<IAddress>({
+    const { register, handleSubmit, control, formState: { errors }, getValues} = useForm<IAddress>({
         defaultValues: {
         }
     });
@@ -102,7 +101,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
                 <Controller
                     name="zipCode"
                     control={control}
-                    render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Zip Code" variant="outlined"   {...register("zipCode", { maxLength: 5, minLength: 5, required: true })}  value={zipCodeState}  onChange={(e)=>{setZipCodeState(e.target.value)}}
+                    render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Zip Code" variant="outlined"   {...register("zipCode", { maxLength: 5, minLength: 5, required: true })}  value={zipCodeState || ""}  onChange={(e)=>{setZipCodeState(e.target.value)}}
                     />}
                     
                 />

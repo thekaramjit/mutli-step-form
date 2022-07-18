@@ -15,19 +15,19 @@ export const BossFormComp: React.FC = () => {
             mName: "",
             gender: "",
             email:"",
-            age: null
+            age: undefined
         },
         companyInfo: {
             companyName: "",
             profile: "",
-            currentSalary: null,
-            expectedSalary: null
+            currentSalary: undefined,
+            expectedSalary: undefined
         },
         addressInfo: {
             country: "",
             state: "",
             city: "",
-            zipCode:null
+            zipCode:undefined
         },
         hobbiesInfo: {
             hobbies: [],
@@ -35,7 +35,6 @@ export const BossFormComp: React.FC = () => {
         }
     }
     
-
     //states
     const [step, setstep] = useState<number>(1);
     const [formData, setFormData] = useState(rootState)   
@@ -84,14 +83,13 @@ export const BossFormComp: React.FC = () => {
                 <ProgressBar progressWidth={progress}/>
                 <Step1 getInfo={step1 as IBasicInfo} setInfo={setStep1} nextStep={nextStep} formData={formData.basicInfo} setFormData={setFormData}  previousStep={prevStep}/>
                 </>
-                
             );
         case 2:
             return (
-                <div className="App">
+                <>
                     <ProgressBar progressWidth={progress}/>
                     <Step2 getInfo={step2 as ICompanyInfo} setInfo={setStep2} nextStep={nextStep} formData={formData.companyInfo} setFormData={setFormData}  previousStep={prevStep} />
-                </div>
+                </>
             );
         case 3:
             return (
@@ -99,7 +97,6 @@ export const BossFormComp: React.FC = () => {
                 <ProgressBar progressWidth={progress} />
                 <Step3 getInfo={step3 as IAddress} setInfo={setStep3} nextStep={nextStep} formData={formData.addressInfo} setFormData={setFormData} previousStep={prevStep} />
                 </>
-               
             );
         case 4:
             return (

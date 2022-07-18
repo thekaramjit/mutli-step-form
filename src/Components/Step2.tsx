@@ -2,7 +2,6 @@ import { btnProps, ICompanyInfo, IRootState } from '../models/models'
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel, TextField } from "@mui/material";
-import { ProgressBar } from './ProgressBar';
 import { Header } from './Header';
 
 type TFormData = {
@@ -16,14 +15,14 @@ type Props = TFormData & btnProps;
 export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, setInfo, getInfo }) => {
 
   //getting data from boss component
-  const profileValue = getInfo?.profile || getInfo?.profile=="" ? getInfo?.profile : formData?.profile
-  const currentSalaryValue = getInfo?.currentSalary || getInfo?.currentSalary==0 ? getInfo?.currentSalary : formData?.currentSalary
-  const expectedSalaryValue=getInfo?.expectedSalary || getInfo?.expectedSalary==0 ? getInfo?.expectedSalary : formData?.expectedSalary
+  const profileValue = getInfo?.profile || getInfo?.profile==="" ? getInfo?.profile : formData?.profile
+  const currentSalaryValue = !getInfo?.currentSalary ? getInfo?.currentSalary : formData?.currentSalary
+  const expectedSalaryValue= !getInfo?.expectedSalary ? getInfo?.expectedSalary : formData?.expectedSalary
 
   //setting data
   const [profileState, setProfileState] = useState(profileValue)
-  const [currentSalaryState, setCurrentSalaryState] = useState<number | null | string>(currentSalaryValue)
-  const [expectedSalaryState,setExpectedSalaryState]=useState<number | null | string>(expectedSalaryValue)
+  const [currentSalaryState, setCurrentSalaryState] = useState<number | undefined | string>(currentSalaryValue)
+  const [expectedSalaryState,setExpectedSalaryState]=useState<number | undefined | string>(expectedSalaryValue)
 
   //use form
   const { register, handleSubmit, control, formState: { errors }, getValues, setValue } = useForm<ICompanyInfo>({
@@ -92,18 +91,17 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
         <Controller
           name="currentSalary"
           control={control}
-          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Current CTC" variant="outlined"  {...register("currentSalary", { required: true })} value={currentSalaryState}  onChange={(e) => setCurrentSalaryState(e.target.value)}
+          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Current CTC" variant="outlined"  {...register("currentSalary", { required: true })} value={currentSalaryState || ""}  onChange={(e) => setCurrentSalaryState(e.target.value)}
           />}
         />
         {errors.currentSalary && <span className="text-danger">This feild is required!</span>}<br /><br />
 
         {/* expectedSalary CTC */}
         <Controller
-
           name="expectedSalary"
           control={control}
           render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Expected CTC" variant="outlined"  {...register("expectedSalary", { required: true })}
-          value={expectedSalaryState}  onChange={(e) => setExpectedSalaryState(e.target.value)}
+          value={expectedSalaryState || ""}  onChange={(e) => setExpectedSalaryState(e.target.value)}
           />}
         />
         {errors.expectedSalary && <span className="text-danger">This feild is required!</span>}<br /><br />
