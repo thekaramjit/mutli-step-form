@@ -36,6 +36,7 @@ export const BossFormComp: React.FC = () => {
     }
     
 
+    //states
     const [step, setstep] = useState<number>(1);
     const [formData, setFormData] = useState(rootState)   
     const [step1, setStep1] = useState<IBasicInfo>()
@@ -44,10 +45,12 @@ export const BossFormComp: React.FC = () => {
     const [step4,setStep4]=useState<IHobbies>()   
     const [progress,setProgress]=useState<number>(0) 
     
+    //next step logic
     const nextStep = () => {
         setstep(step + 1);
     };
 
+    //previous step logic
     const prevStep = () => {
         setstep(step - 1);
     };
@@ -56,6 +59,7 @@ export const BossFormComp: React.FC = () => {
         progressFunc()
     },[formData])
 
+    //progress bar logic
     const progressFunc=()=>{
         const basicInfoCompleted:boolean=formData.basicInfo.age!==null &&  formData.basicInfo.name!=="" && formData.basicInfo.fName!=="" && formData.basicInfo.mName!=="" && formData.basicInfo.gender!=="" && formData.basicInfo.email!==""
     
@@ -72,6 +76,7 @@ export const BossFormComp: React.FC = () => {
     
         setProgress(basicProgressBar + companyInfoProgressBar + addressInfoProgressBar + hobbiesInfoProgressBar)
     }
+
     switch (step) {
         case 1:
             return (
