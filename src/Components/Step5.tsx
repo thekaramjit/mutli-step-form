@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { btnProps, IRootState } from '../models/models'
 import { Header } from './Header';
-import { ProgressBar } from './ProgressBar';
 import "./style.css"
 
 type TFormData = {
@@ -9,13 +8,12 @@ type TFormData = {
 }
 
 type Props = TFormData & btnProps;
-console.log("step5");
 
-export const Step5: React.FC<Props> = ({ nextStep, previousStep, formData }) => {
+export const Step5: React.FC<Props> = ({ previousStep, formData }) => {
 
   return (
     <div>
-      <div className="container mt-5">
+      <div className="container">
         <Header heading="DETAILS" step={5} />
         
         <div className="row">

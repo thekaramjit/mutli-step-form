@@ -14,16 +14,6 @@ export interface ICompanyInfo {
         expectedSalary: number | undefined | string
 }
 
-export interface IPropCompanyInfo {
-        getInfo:{
-                companyName: string,
-                profile: string,
-                currentSalary: number | undefined,
-                expectedSalary: number | undefined
-        }
-        
-}
-
 export interface IAddress {
         country: string,
         state: string,
@@ -86,4 +76,11 @@ export type TCountryMapData={
                         cities?: string[];
                 }[];
         }[];
+}
+
+export interface IDisableButtonValue{
+        step1Progress: boolean | undefined;
+        step2Progress: boolean | undefined;
+        step3Progress: boolean | undefined;
+        step4Progress: boolean | undefined;
 }

@@ -38,7 +38,6 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
 
   //submit function
   const onSubmit = (data: IHobbies) => {
-    nextStep()
     setFormData((preVal: IRootState) => {
       return {
         ...preVal, hobbiesInfo: data
@@ -46,14 +45,15 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
     })
     setInfo(data)
     checkState(data)
+    nextStep()
   };
 
    //handling previous
   const handlePrevious = () => {
     const multipleValues: IHobbies = getValues();
     setInfo({...multipleValues})
-    previousStep()
     checkState({...multipleValues})
+    previousStep()
   }
 
   //checking if any feild is empty
@@ -68,7 +68,7 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   }
   
   return (
-    <div className="container mt-5">
+    <div className="container">
 
       <Header heading="HOBBIES" step={4} />
       

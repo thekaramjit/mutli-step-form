@@ -41,3 +41,12 @@ h3 {
     position: absolute !important;
     left: -28px !important;
 }
+.stepBtn{
+    font-size: 22px;
+}
+.stepBtn:hover{
+    background-color: #673AB7 !important;
+    color: white;
+    border: none;
+
+}

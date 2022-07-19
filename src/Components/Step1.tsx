@@ -54,7 +54,7 @@ export const Step1: React.FC<Props> = ({ nextStep, setFormData, formData, setInf
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <Header heading="BASIC INFO" step={1} />
       
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="on">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IAddress, IBasicInfo, ICompanyInfo, IHobbies, IRootState } from '../models/models'
+import { HeaderTabs } from './HeaderTabs'
 import { ProgressBar } from './ProgressBar'
 import { Step1 } from './Step1'
 import { Step2 } from './Step2'
@@ -41,8 +42,9 @@ export const BossFormComp: React.FC = () => {
     const [step1, setStep1] = useState<IBasicInfo>()
     const [step2, setStep2] = useState<ICompanyInfo>()
     const [step3,setStep3]=useState<IAddress>()
+    
     const [step4,setStep4]=useState<IHobbies>()   
-    const [progress,setProgress]=useState<number>(100) 
+    const [progress,setProgress]=useState<number>(0) 
     const [step1Progress, setStep1Progress]=useState<boolean>()
     const [step2Progress, setStep2Progress]=useState<boolean>()
     const [step3Progress, setStep3Progress]=useState<boolean>()
@@ -69,74 +71,57 @@ export const BossFormComp: React.FC = () => {
         const step2ProgressState = step2Progress ? 25 : 0
         const step3ProgressState = step3Progress ? 25 : 0        
         const step4ProgressState = step4Progress ? 25 : 0
-        //console.log("step4ProgressState ", step4Progress)
         const totalValue = step1ProgressState + step2ProgressState + step3ProgressState + step4ProgressState
-        // console.log("TotalValue",totalValue)
         setProgress(totalValue)
     }
-    console.log("Progress ",progress)
     
-    switch (step) {
-        case 1:
-            return (
-                <>
-                <ProgressBar progressWidth={progress}/>
-                    <Step1 setStep1Progress={setStep1Progress} getInfo={step1 as IBasicInfo} setInfo={setStep1} nextStep={nextStep} formData={formData.basicInfo} setFormData={setFormData}  previousStep={prevStep}/>
-                </>
-            );
-        case 2:
-            return (
-                <>
-                    <ProgressBar progressWidth={progress}/>
-                    <Step2 setStep2Progress={setStep2Progress} getInfo={step2 as ICompanyInfo} setInfo={setStep2} nextStep={nextStep} formData={formData.companyInfo} setFormData={setFormData}  previousStep={prevStep} />
-                </>
-            );
-        case 3:
-            return (
-                <>
-                <ProgressBar progressWidth={progress} />
-                    <Step3 setStep3Progress={setStep3Progress} getInfo={step3 as IAddress} setInfo={setStep3} nextStep={nextStep} formData={formData.addressInfo} setFormData={setFormData} previousStep={prevStep} />
-                </>
-            );
-        case 4:
-            return (
-                <>
-                <ProgressBar progressWidth={progress}/>
-                    <Step4 setStep4Progress={setStep4Progress} getInfo={step4 as IHobbies} setInfo={setStep4} nextStep={nextStep} formData={formData.hobbiesInfo} setFormData={setFormData} previousStep={prevStep} />
-                </>
-                
-            );
-        case 5:
-            return (
-                <>
-                <ProgressBar progressWidth={progress}/>
-                <Step5 nextStep={nextStep} formData={formData} setFormData={setFormData} previousStep={prevStep} />
-                </>
-                
-            );
-        default:
-            return (
-                <div className="App">
-                </div>
-            );
-    }
     
+        switch (step) {
+            case 1:
+                return (
+                    <>
+                        <ProgressBar progressWidth={progress} />
+                        <HeaderTabs setStep={setstep} enable={progress} />
+                        <Step1 setStep1Progress={setStep1Progress} getInfo={step1 as IBasicInfo} setInfo={setStep1} nextStep={nextStep} formData={formData.basicInfo} setFormData={setFormData} previousStep={prevStep} />
+                    </>)
+            case 2:
+                return (
+                    <>
+                        <ProgressBar progressWidth={progress} />
+                        <HeaderTabs setStep={setstep} enable={progress} />
+                        <Step2 setStep2Progress={setStep2Progress} getInfo={step2 as ICompanyInfo} setInfo={setStep2} nextStep={nextStep} formData={formData.companyInfo} setFormData={setFormData} previousStep={prevStep} />
+                    </>
+                );
+            case 3:
+                return (
+                    <>
+                        <ProgressBar progressWidth={progress} />
+                        <HeaderTabs setStep={setstep} enable={progress} />
+                        <Step3 setStep3Progress={setStep3Progress} getInfo={step3 as IAddress} setInfo={setStep3} nextStep={nextStep} formData={formData.addressInfo} setFormData={setFormData} previousStep={prevStep} />
+                    </>
+                );
+            case 4:
+                return (
+                    <>
+                        <ProgressBar progressWidth={progress} />
+                        <HeaderTabs setStep={setstep} enable={progress} />
+                        <Step4 setStep4Progress={setStep4Progress} getInfo={step4 as IHobbies} setInfo={setStep4} nextStep={nextStep} formData={formData.hobbiesInfo} setFormData={setFormData} previousStep={prevStep} />
+                    </>
+
+                );
+            case 5:
+                return (
+                    <>
+                        <ProgressBar progressWidth={progress} />
+                        <HeaderTabs setStep={setstep} enable={progress} />
+                        <Step5 nextStep={nextStep} formData={formData} setFormData={setFormData} previousStep={prevStep} />
+                    </>
+
+                );
+            default:
+                return (
+                    <div className="App">
+                    </div>
+                );
+        }   
 }
-
-
-
- // const basicInfoCompleted:boolean=formData.basicInfo.age!==undefined &&  formData.basicInfo.name!=="" && formData.basicInfo.fName!=="" && formData.basicInfo.mName!=="" && formData.basicInfo.gender!=="" && formData.basicInfo.email!==""
-    
-        // const companyInfoCompleted: boolean = formData.companyInfo.companyName !== ""  && formData.companyInfo.profile !=="" && formData.companyInfo.currentSalary !== (undefined || "")  && formData.companyInfo.expectedSalary !== (undefined ||"")
-    
-        // const addressInfoCompleted:boolean=formData.addressInfo.country!=="" &&  formData.addressInfo.state!=="" && formData.addressInfo.city!=="" && formData.addressInfo.zipCode!==null
-        
-        // const hobbiesInfoCompleted:boolean=formData.hobbiesInfo.hobbies.length!==0 &&  formData.hobbiesInfo.jsLevel!==""
-        //console.log(basicInfoCompleted, companyInfoCompleted, addressInfoCompleted, hobbiesInfoCompleted)
-    
-        // const basicProgressBar:number=basicInfoCompleted ? 25 : 0
-        // const companyInfoProgressBar:number=companyInfoCompleted ? 25 : 0
-        // const addressInfoProgressBar:number=addressInfoCompleted ? 25 : 0
-        // const hobbiesInfoProgressBar:number=hobbiesInfoCompleted ? 25 : 0
-    
-        // setProgress(basicProgressBar + companyInfoProgressBar + addressInfoProgressBar + hobbiesInfoProgressBar)
