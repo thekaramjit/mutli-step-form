@@ -1,5 +1,5 @@
 import { btnProps, IHobbies, IRootState} from '../models/models'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel } from "@mui/material";
 import { Header } from './Header';
@@ -8,18 +8,27 @@ type TFormData = {
   formData: IHobbies
   getInfo: IHobbies
   setInfo: React.Dispatch<React.SetStateAction<IHobbies | undefined>>
+  setStep4Progress: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }
 
 type Props = TFormData & btnProps
 
-export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData,getInfo,setInfo }) => {
+export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, getInfo, setInfo, setStep4Progress }) => {
 
+  // if (getInfo?.hobbies) {
+  //   setValue('hobbies', hobbiesValue)
+  // }
   //getting data from boss component
   const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length===0 ? getInfo?.hobbies : formData?.hobbies
   const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel==="" ? getInfo?.jsLevel : formData?.jsLevel
 
   //setting data
   const [jSLevelState,setJSLevelState]=useState(jsLevelValue)
+  const [hobbiesState, setHobbiesState] = useState(hobbiesValue)
+
+  useEffect(()=>{
+    setValue('hobbies', hobbiesState)
+  },[])
 
   //uesForm
   const { register, handleSubmit, control, formState: { errors }, setValue ,getValues} = useForm<IHobbies>({
@@ -36,20 +45,28 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
       }
     })
     setInfo(data)
+    checkState(data)
   };
 
    //handling previous
   const handlePrevious = () => {
     const multipleValues: IHobbies = getValues();
-    setInfo(multipleValues)
+    setInfo({...multipleValues})
     previousStep()
+    checkState({...multipleValues})
   }
 
-  //setting hobbies value
-  if (getInfo?.hobbies ) {
-    setValue('hobbies', hobbiesValue)
-   }
-
+  //checking if any feild is empty
+  const checkState = (multipleValues: IHobbies) => {
+    const isNullish = Object.values(multipleValues).every(value => {
+      if (multipleValues.hobbies.length!==0  && (value!=="" || undefined)) {
+        return true;
+      }
+      return false;
+    });
+    setStep4Progress(isNullish)
+  }
+  
   return (
     <div className="container mt-5">
 

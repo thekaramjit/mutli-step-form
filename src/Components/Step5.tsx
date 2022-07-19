@@ -9,6 +9,7 @@ type TFormData = {
 }
 
 type Props = TFormData & btnProps;
+console.log("step5");
 
 export const Step5: React.FC<Props> = ({ nextStep, previousStep, formData }) => {
 

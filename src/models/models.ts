@@ -10,8 +10,8 @@ export interface IBasicInfo {
 export interface ICompanyInfo {
         companyName: string,
         profile: string,
-        currentSalary: number | undefined,
-        expectedSalary: number | undefined
+        currentSalary: number | undefined | string,
+        expectedSalary: number | undefined | string
 }
 
 export interface IPropCompanyInfo {

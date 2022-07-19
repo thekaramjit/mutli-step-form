@@ -1,5 +1,5 @@
 import { btnProps, IBasicInfo, IRootState} from '../models/models'
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {TextField } from "@mui/material";
 import { Header } from './Header';
@@ -9,11 +9,21 @@ type TFormData={
   formData:IBasicInfo
   getInfo: IBasicInfo
   setInfo: React.Dispatch<React.SetStateAction<IBasicInfo | undefined>>
+  setStep1Progress: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }
 
 type Props = TFormData & btnProps;
 
-export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData,setInfo}) => {
+export const Step1: React.FC<Props> = ({ nextStep, setFormData, formData, setInfo, getInfo, setStep1Progress }) => {
+
+  useEffect(()=>{
+    setValue('name', getInfo?.fName)
+    setValue('fName', getInfo?.fName)
+    setValue('mName', getInfo?.mName)
+    setValue('gender', getInfo?.gender)
+    setValue("email", getInfo?.email)
+    setValue('age', getInfo?.age)
+  },[])
 
   const { register, handleSubmit, control, formState: { errors },setValue } = useForm<IBasicInfo>({
     defaultValues: {
@@ -29,17 +39,18 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
     })
     setInfo(data)
     nextStep()
+    checkState(data)
   };
-
-  //setting data
-  if (formData?.name) {
-    const { name,fName,mName,gender,age,email } = formData
-    setValue('name', name)
-    setValue('fName', fName)
-    setValue('mName', mName)
-    setValue('gender', gender)
-    setValue("email",email)
-    setValue('age', age)
+  
+  //checking if any feild is empty
+  const checkState = (multipleValues: IBasicInfo) => {
+    const isNullish = Object.values(multipleValues).every(value => {
+      if (value !== "" || undefined) {
+        return true;
+      }
+      return false;
+    });
+    setStep1Progress(isNullish)
   }
 
   return (
@@ -99,7 +110,9 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
         <Controller
           name="age"
           control={control}
-          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Age" variant="outlined"  {...register("age", { required: true, min: 18 ,max:100})}
+          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Age" variant="outlined"
+            {...register("age", { required: true, min: 18 ,max:100})}
+            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
           />}
         />
         {errors.age && errors.age.type === "required" && <span className="text-danger">This feild is required!</span>}<br />
