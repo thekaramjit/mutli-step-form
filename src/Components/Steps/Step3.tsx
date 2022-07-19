@@ -1,10 +1,10 @@
-import { btnProps, IAddress, IRootState } from '../models/models'
+import { btnProps, IAddress, IRootState } from '../../models/models'
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel, TextField } from "@mui/material";
-import { countryData } from '../Data/data';
-import "./style.css"
-import { Header } from './Header';
+import { countryData } from '../../Data/data';
+import "../style.css"
+import { Header } from '../Header/Header';
 
 
 type TFormData = {

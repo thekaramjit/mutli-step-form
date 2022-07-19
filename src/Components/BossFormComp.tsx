@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { IAddress, IBasicInfo, ICompanyInfo, IHobbies, IRootState } from '../models/models'
-import { HeaderTabs } from './HeaderTabs'
+import { HeaderTabs } from './Header/HeaderTabs'
 import { ProgressBar } from './ProgressBar'
-import { Step1 } from './Step1'
-import { Step2 } from './Step2'
-import { Step3 } from './Step3'
-import { Step4 } from './Step4'
-import { Step5 } from './Step5'
+import { Step1 } from './Steps/Step1'
+import { Step2 } from './Steps/Step2'
+import { Step3 } from './Steps/Step3'
+import { Step4 } from './Steps/Step4'
+import { Step5 } from './Steps/Step5'
 
 export const BossFormComp: React.FC = () => {
     const rootState:IRootState= {

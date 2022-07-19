@@ -1,9 +1,9 @@
-import { btnProps, IBasicInfo, IRootState} from '../models/models'
+import { btnProps, IBasicInfo, IRootState} from '../../models/models'
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {TextField } from "@mui/material";
-import { Header } from './Header';
-import "./style.css"
+import { Header } from '../Header/Header';
+import "../style.css"
 
 type TFormData={
   formData:IBasicInfo

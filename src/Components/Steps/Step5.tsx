@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { btnProps, IRootState } from '../models/models'
-import { Header } from './Header';
-import "./style.css"
+import { btnProps, IRootState } from '../../models/models'
+import { Header } from '../Header/Header';
+import "../style.css"
 
 type TFormData = {
   formData: IRootState

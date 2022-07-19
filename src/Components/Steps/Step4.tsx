@@ -1,8 +1,8 @@
-import { btnProps, IHobbies, IRootState} from '../models/models'
+import { btnProps, IHobbies, IRootState} from '../../models/models'
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel } from "@mui/material";
-import { Header } from './Header';
+import { Header } from '../Header/Header';
 
 type TFormData = {
   formData: IHobbies

@@ -1,8 +1,8 @@
-import { btnProps, ICompanyInfo, IRootState } from '../models/models'
+import { btnProps, ICompanyInfo, IRootState } from '../../models/models'
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormLabel, TextField } from "@mui/material";
-import { Header } from './Header';
+import { Header } from '../Header/Header';
 
 type TFormData = {
   formData: ICompanyInfo
@@ -57,6 +57,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
       }
       return false;
     });
+    
     setStep2Progress(isNullish)
   }
 
@@ -70,9 +71,9 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
         {/* company name */}
         <Controller
           name="companyName"
-          defaultValue=" "
+          defaultValue=""
           control={control}
-          render={({ field }) => <TextField   className='form-control' id="outlined-basic" label="Company Name" variant="outlined"  {...register("companyName", { minLength: 5, required: true })} 
+          render={({ field }) => <TextField className='form-control' id="outlined-basic" label="Company Name" variant="outlined"  {...register("companyName", { minLength: 5, required: true }) } 
           />}
         />
         {errors.companyName && errors.companyName.type === "required" && <span className="text-danger">This feild is required!</span>}<br />
@@ -112,6 +113,7 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
           render={({ field }) => <TextField  type="number" className='form-control' id="outlined-basic" label="Expected CTC" variant="outlined"  
           {...register("expectedSalary", { required: true })}
             onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
+            
           />}
         />
         {errors.expectedSalary && <span className="text-danger">This feild is required!</span>}<br /><br />
@@ -119,7 +121,6 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
         <button name='previous' onClick={handlePrevious} className="submitBtn previous btn btn-primary  my-3">Previous</button>
         <button name="next" type='submit' className="submitBtn next btn btn-primary mx-4 my-3">Next</button>
       </form>
-
     </div>
   )
 }

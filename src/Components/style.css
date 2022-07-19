@@ -43,10 +43,11 @@ h3 {
 }
 .stepBtn{
     font-size: 22px;
+    color: #673AB7 !important;
 }
 .stepBtn:hover{
     background-color: #673AB7 !important;
-    color: white;
+    color: white !important;
     border: none;
 
 }
