@@ -13,11 +13,8 @@ type TFormData = {
 
 type Props = TFormData & btnProps
 
-export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, getInfo, setInfo, setStep4Progress }) => {
+export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, formData, getInfo, setInfo, setStep4Progress}) => {
 
-  // if (getInfo?.hobbies) {
-  //   setValue('hobbies', hobbiesValue)
-  // }
   //getting data from boss component
   const hobbiesValue = getInfo?.hobbies || getInfo?.hobbies.length===0 ? getInfo?.hobbies : formData?.hobbies
   const jsLevelValue = getInfo?.jsLevel || getInfo?.jsLevel==="" ? getInfo?.jsLevel : formData?.jsLevel
@@ -28,6 +25,15 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
 
   useEffect(()=>{
     setValue('hobbies', hobbiesState)
+    return (() => {
+      const multipleValues: IHobbies = getValues();
+      setInfo({ ...multipleValues })
+      setFormData((preVal: IRootState) => {
+        return {
+          ...preVal, hobbiesInfo: multipleValues
+        }
+      })
+    })
   },[])
 
   //uesForm
@@ -59,7 +65,7 @@ export const Step4: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   //checking if any feild is empty
   const checkState = (multipleValues: IHobbies) => {
     const isNullish = Object.values(multipleValues).every(value => {
-      if (multipleValues.hobbies.length!==0  && (value!=="" || undefined)) {
+      if (multipleValues.hobbies.length !== 0 && (value !== "" && value !== undefined)) {
         return true;
       }
       return false;

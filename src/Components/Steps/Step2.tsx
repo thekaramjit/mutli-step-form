@@ -27,7 +27,18 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
     setValue('profile', getInfo?.profile)
     setValue('currentSalary', getInfo?.currentSalary)
     setValue('expectedSalary', getInfo?.expectedSalary)
-  },[])
+    
+    return(()=>{
+      const multipleValues: ICompanyInfo = getValues();
+      setInfo({ ...multipleValues })
+      checkState(multipleValues)
+      setFormData((preVal: IRootState) => {
+        return {
+          ...preVal, companyInfo: multipleValues
+        }
+      })
+    })
+  }, [])
 
   //submit funciton
   const onSubmit = (data: ICompanyInfo) => {
@@ -52,11 +63,13 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
   //checking if any feild is empty
   const checkState = (multipleValues:ICompanyInfo)=>{
     const isNullish = Object.values(multipleValues).every(value => {
-      if (value!== (undefined || "")) {
+      console.log(value)
+      if (value !== undefined && value !== "") {
         return true;
       }
       return false;
     });
+    console.log(isNullish);
     
     setStep2Progress(isNullish)
   }
@@ -71,9 +84,10 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
         {/* company name */}
         <Controller
           name="companyName"
-          defaultValue=""
           control={control}
-          render={({ field }) => <TextField className='form-control' id="outlined-basic" label="Company Name" variant="outlined"  {...register("companyName", { minLength: 5, required: true }) } 
+          // autoFocus={true}
+          render={({ field }) => <TextField className='form-control' id="outlined-basic" label="Company Name" variant="outlined" 
+          {...register("companyName", { required: true, minLength: 5 }) } 
           />}
         />
         {errors.companyName && errors.companyName.type === "required" && <span className="text-danger">This feild is required!</span>}<br />
@@ -81,19 +95,23 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
 
         {/* proflie */}
         <FormLabel>Profile</FormLabel><br />
-        <select {...register("profile", { required: true })} 
-        >
-          <option value="">None</option>
-          <option value="React.js">React.js</option>
-          <option value="PHP">PHP</option>
-          <option value="Angular.js">Angular.js</option>
-          <option value="Node.js">Node.js</option>
-          <option value="Next.js">Next.js</option>
-          <option value="Dot Net">Dot Net</option>
-          <option value="Laravel">Laravel</option>
-          <option value="Web designer">Web designer</option>
-        </select>
-        {errors.profile && <span className="text-danger">This feid is Required!</span>}<br /><br />
+        <Controller
+          name="profile"
+          control={control}
+          // autoFocus={true}
+          render={({ field }) => <select {...register("profile", { required: true })}>
+            <option value="">None</option>
+            <option value="React.js">React.js</option>
+            <option value="PHP">PHP</option>
+            <option value="Angular.js">Angular.js</option>
+            <option value="Node.js">Node.js</option>
+            <option value="Next.js">Next.js</option>
+            <option value="Dot Net">Dot Net</option>
+            <option value="Laravel">Laravel</option>
+            <option value="Web designer">Web designer</option>
+          </select>}
+        />
+        {errors.profile && errors.profile.type === "required" && <span className="text-danger">This feid is Required!</span>}<br /><br />
 
         {/* current CTC */}
         <Controller
@@ -101,7 +119,6 @@ export const Step2: React.FC<Props> = ({ nextStep, previousStep, setFormData, fo
           control={control}
           render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Current CTC" variant="outlined"  {...register("currentSalary", { required: true })} 
             onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
-          
           />}
         />
         {errors.currentSalary && <span className="text-danger">This feild is required!</span>}<br /><br />

@@ -1,15 +1,34 @@
-import React, { useState } from 'react'
-import { btnProps, IRootState } from '../../models/models'
+import React,{useEffect} from 'react'
+import { btnProps, ICompanyInfo, IRootState } from '../../models/models'
 import { Header } from '../Header/Header';
 import "../style.css"
 
 type TFormData = {
   formData: IRootState
+  step2Info:ICompanyInfo
 }
 
 type Props = TFormData & btnProps;
 
-export const Step5: React.FC<Props> = ({ previousStep, formData }) => {
+export const Step5: React.FC<Props> = ({ previousStep, formData,step2Info }) => {
+
+  useEffect(() => {
+    // checkState(formData)
+  }, [formData])
+
+  //checking if any feild is empty
+  // const checkState = (multipleValues:any) => {
+  //   const isNullish = Object.values(multipleValues).every((element) => {
+  //     Object.values(multipleValues.element).every(value => {
+  //       if (value !== undefined || value !== undefined || value?.length !== 0) {
+  //         return true;
+  //       }
+  //       return false;
+  //     });
+  //   });
+  //   console.log(isNullish)
+  // }
+  
 
   return (
     <div>

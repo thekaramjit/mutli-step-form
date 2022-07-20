@@ -16,7 +16,7 @@ type TFormData = {
 
 type Props = TFormData & btnProps
 
-export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFormData, getInfo, setInfo, setStep3Progress }) => {
+export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFormData, getInfo, setInfo, setStep3Progress}) => {
     
     const { register, handleSubmit, control, formState: { errors }, getValues,setValue} = useForm<IAddress>({
         defaultValues: {
@@ -33,6 +33,16 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
     useEffect(() => {
         setValue('state', getInfo?.state)
         setValue('city', getInfo?.city)
+        return (() => {
+            const multipleValues: IAddress = getValues();
+            setInfo({ ...multipleValues })
+            checkState(multipleValues)
+            setFormData((preVal: IRootState) => {
+                return {
+                    ...preVal, addressInfo: multipleValues
+                }
+            })
+        })
     }, [getInfo?.state, getInfo?.city, setValue])
 
     const onSubmit = (data: IAddress) => {
@@ -46,6 +56,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
         nextStep()
     };
 
+    //handling previous button 
     const handlePrevious = () => {
         const multipleValues: IAddress = getValues();
         setInfo(multipleValues)
@@ -59,7 +70,7 @@ export const Step3: React.FC<Props> = ({ nextStep, previousStep, formData, setFo
     //checking if any feild is empty
     const checkState = (multipleValues:IAddress) => {
         const isNullish = Object.values(multipleValues).every(value => {
-            if (value !== (undefined || "")) {
+            if (value !== undefined && value !== "") {
                 return true;
             }
             return false;

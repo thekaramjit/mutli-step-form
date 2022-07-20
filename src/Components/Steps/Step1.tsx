@@ -17,15 +17,27 @@ type Props = TFormData & btnProps;
 export const Step1: React.FC<Props> = ({ nextStep, setFormData, formData, setInfo, getInfo, setStep1Progress }) => {
 
   useEffect(()=>{
-    setValue('name', getInfo?.fName)
+    setValue('name', getInfo?.name)
     setValue('fName', getInfo?.fName)
     setValue('mName', getInfo?.mName)
     setValue('gender', getInfo?.gender)
     setValue("email", getInfo?.email)
     setValue('age', getInfo?.age)
+    return (() => {
+      const multipleValues: IBasicInfo = getValues();
+      console.log(multipleValues);
+      
+      setInfo({ ...multipleValues })
+      checkState(multipleValues)
+      setFormData((preVal: IRootState) => {
+        return {
+          ...preVal, basicInfo: multipleValues
+        }
+      })
+    })
   },[])
 
-  const { register, handleSubmit, control, formState: { errors },setValue } = useForm<IBasicInfo>({
+  const { register, handleSubmit, control, formState: { errors }, getValues, setValue } = useForm<IBasicInfo>({
     defaultValues: {
     }
   });
@@ -45,7 +57,7 @@ export const Step1: React.FC<Props> = ({ nextStep, setFormData, formData, setInf
   //checking if any feild is empty
   const checkState = (multipleValues: IBasicInfo) => {
     const isNullish = Object.values(multipleValues).every(value => {
-      if (value !== "" || undefined) {
+      if (value !== undefined && value !== "" ) {
         return true;
       }
       return false;

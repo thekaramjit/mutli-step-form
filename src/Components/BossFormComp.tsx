@@ -114,7 +114,7 @@ export const BossFormComp: React.FC = () => {
                     <>
                         <ProgressBar progressWidth={progress} />
                         <HeaderTabs setStep={setstep} enable={progress} />
-                        <Step5 nextStep={nextStep} formData={formData} setFormData={setFormData} previousStep={prevStep} />
+                        <Step5 step2Info={step2 as ICompanyInfo} nextStep={nextStep} formData={formData} setFormData={setFormData} previousStep={prevStep} />
                     </>
 
                 );
