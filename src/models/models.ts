@@ -4,31 +4,21 @@ export interface IBasicInfo {
         mName: string,
         email: string
         gender: string,
-        age: number | null
+        age: number | undefined
 }
 
 export interface ICompanyInfo {
         companyName: string,
         profile: string,
-        currentSalary: number,
-        expectedSalary: number
-}
-
-export interface IPropCompanyInfo {
-        getInfo:{
-                companyName: string,
-                profile: string,
-                currentSalary: number,
-                expectedSalary: number
-        }
-        
+        currentSalary: number | undefined | string,
+        expectedSalary: number | undefined | string
 }
 
 export interface IAddress {
         country: string,
         state: string,
         city: string,
-        zipCode: number
+        zipCode: number | undefined
 }
 
 export interface IHobbies {
@@ -86,4 +76,11 @@ export type TCountryMapData={
                         cities?: string[];
                 }[];
         }[];
+}
+
+export interface IDisableButtonValue{
+        step1Progress: boolean | undefined;
+        step2Progress: boolean | undefined;
+        step3Progress: boolean | undefined;
+        step4Progress: boolean | undefined;
 }

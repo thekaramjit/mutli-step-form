@@ -1,20 +1,43 @@
-import { btnProps, IBasicInfo, IRootState} from '../models/models'
-import React, { useState } from "react";
+import { btnProps, IBasicInfo, IRootState} from '../../models/models'
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {TextField } from "@mui/material";
-import { ProgressBar } from './ProgressBar';
-import { Header } from './Header';
-import "./style.css"
+import { Header } from '../Header/Header';
+import "../style.css"
 
 type TFormData={
   formData:IBasicInfo
+  getInfo: IBasicInfo
+  setInfo: React.Dispatch<React.SetStateAction<IBasicInfo | undefined>>
+  setStep1Progress: React.Dispatch<React.SetStateAction<boolean | undefined>>
 }
 
 type Props = TFormData & btnProps;
 
-export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData}) => {
+export const Step1: React.FC<Props> = ({ nextStep, setFormData, formData, setInfo, getInfo, setStep1Progress }) => {
 
-  const { register, handleSubmit, control, formState: { errors },setValue } = useForm<IBasicInfo>({
+  useEffect(()=>{
+    setValue('name', getInfo?.name)
+    setValue('fName', getInfo?.fName)
+    setValue('mName', getInfo?.mName)
+    setValue('gender', getInfo?.gender)
+    setValue("email", getInfo?.email)
+    setValue('age', getInfo?.age)
+    return (() => {
+      const multipleValues: IBasicInfo = getValues();
+      console.log(multipleValues);
+      
+      setInfo({ ...multipleValues })
+      checkState(multipleValues)
+      setFormData((preVal: IRootState) => {
+        return {
+          ...preVal, basicInfo: multipleValues
+        }
+      })
+    })
+  },[])
+
+  const { register, handleSubmit, control, formState: { errors }, getValues, setValue } = useForm<IBasicInfo>({
     defaultValues: {
     }
   });
@@ -24,26 +47,26 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
     setFormData((preVal:IRootState)=>{
       return{
         ...preVal, basicInfo: data
-        
       }
     })
+    setInfo(data)
     nextStep()
+    checkState(data)
   };
-
-  if (formData?.name) {
-    const { name,fName,mName,gender,age,email } = formData
-    setValue('name', name)
-    setValue('fName', fName)
-    setValue('mName', mName)
-    setValue('gender', gender)
-    setValue("email",email)
-    setValue('age', age)
+  
+  //checking if any feild is empty
+  const checkState = (multipleValues: IBasicInfo) => {
+    const isNullish = Object.values(multipleValues).every(value => {
+      if (value !== undefined && value !== "" ) {
+        return true;
+      }
+      return false;
+    });
+    setStep1Progress(isNullish)
   }
 
   return (
-    <div className="container mt-5">
-      <ProgressBar progressWidth={0} />
-      
+    <div className="container">
       <Header heading="BASIC INFO" step={1} />
       
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="on">
@@ -97,10 +120,11 @@ export const Step1: React.FC<Props>=({nextStep,previousStep,setFormData,formData
         
         {/* age */}
         <Controller
-         
           name="age"
           control={control}
-          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Age" variant="outlined"  {...register("age", { required: true, min: 18 ,max:100})}
+          render={({ field }) => <TextField type="number" className='form-control' id="outlined-basic" label="Age" variant="outlined"
+            {...register("age", { required: true, min: 18 ,max:100})}
+            onKeyDown={(evt) => ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()}
           />}
         />
         {errors.age && errors.age.type === "required" && <span className="text-danger">This feild is required!</span>}<br />

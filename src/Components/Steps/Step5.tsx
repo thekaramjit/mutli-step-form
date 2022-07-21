@@ -1,23 +1,38 @@
-import React, { useState } from 'react'
-import { btnProps, IRootState } from '../models/models'
-import { Header } from './Header';
-import { ProgressBar } from './ProgressBar';
-import "./style.css"
+import React,{useEffect} from 'react'
+import { btnProps, ICompanyInfo, IRootState } from '../../models/models'
+import { Header } from '../Header/Header';
+import "../style.css"
 
 type TFormData = {
   formData: IRootState
+  step2Info:ICompanyInfo
 }
 
 type Props = TFormData & btnProps;
 
-export const Step5: React.FC<Props> = ({ nextStep, previousStep, formData }) => {
+export const Step5: React.FC<Props> = ({ previousStep, formData,step2Info }) => {
+
+  useEffect(() => {
+    // checkState(formData)
+  }, [formData])
+
+  //checking if any feild is empty
+  // const checkState = (multipleValues:any) => {
+  //   const isNullish = Object.values(multipleValues).every((element) => {
+  //     Object.values(multipleValues.element).every(value => {
+  //       if (value !== undefined || value !== undefined || value?.length !== 0) {
+  //         return true;
+  //       }
+  //       return false;
+  //     });
+  //   });
+  //   console.log(isNullish)
+  // }
+  
 
   return (
     <div>
-      <div className="container mt-5">
-
-        <ProgressBar progressWidth={100} />
-
+      <div className="container">
         <Header heading="DETAILS" step={5} />
         
         <div className="row">
